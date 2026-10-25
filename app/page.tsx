@@ -143,12 +143,6 @@ export default function HomePage() {
                     <Send className="w-4 h-4" />
                     <span>Kirim</span>
                   </button>
-
-                  {!isFormValid && (
-                    <p className="text-center text-[11px] text-[#717b8c] font-mono mt-2.5">
-                      Ketik spesifikasi terlebih dahulu untuk mengaktifkan tombol kirim
-                    </p>
-                  )}
                 </form>
               </div>
             </div>

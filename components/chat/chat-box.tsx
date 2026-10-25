@@ -47,19 +47,28 @@ export function ChatBox({ laptopSpecs, onBackToLanding, onChangeSpecs }: ChatBox
 
       setLoading(true);
       try {
-        const initialPrompt = `Berikut spesifikasi laptop gue:\n${laptopSpecs.trim()}\n\nCoba berikan roasting awal dan evaluasi jujur untuk spek ini secara singkat dan padat!`;
+        const isRec = laptopSpecs.toLowerCase().includes('rekomendasi');
+        const initialPrompt = isRec
+          ? laptopSpecs.trim()
+          : `Berikut spesifikasi laptop gue:\n${laptopSpecs.trim()}\n\nCoba berikan roasting awal dan evaluasi jujur untuk spek ini secara singkat dan padat!`;
+
+        if (isRec) {
+          setMessages([{ role: 'user', content: initialPrompt }]);
+        }
+
         const res = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             messages: [{ role: 'user', content: initialPrompt }],
-            laptopSpecs: laptopSpecs.trim(),
+            laptopSpecs: isRec ? undefined : laptopSpecs.trim(),
           }),
         });
 
         const data = await res.json();
         if (data.ok && data.message) {
-          setMessages([
+          setMessages((prev) => [
+            ...prev.filter((m) => m.role === 'user'),
             {
               role: 'assistant',
               content: data.message,
@@ -233,7 +242,7 @@ export function ChatBox({ laptopSpecs, onBackToLanding, onChangeSpecs }: ChatBox
                 {!isUser && (
                   <div className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-[#C7F36B] mb-1 font-bold">
                     <Cpu className="w-3 h-3" />
-                    <span>AI LAPTOP ROASTER</span>
+                    <span>AIRoast</span>
                   </div>
                 )}
                 <div className="whitespace-pre-wrap">{msg.content}</div>
@@ -246,7 +255,7 @@ export function ChatBox({ laptopSpecs, onBackToLanding, onChangeSpecs }: ChatBox
           <div className="flex items-start animate-fade-in">
             <div className="bg-[#15181f] border border-[#262c37] border-l-2 border-l-[#C7F36B] rounded-xl px-3.5 py-2.5 text-xs font-mono text-[#8D97A8] flex items-center gap-2">
               <Cpu className="w-3.5 h-3.5 text-[#C7F36B] animate-pulse" />
-              <span>Sedang menganalisis hardware...</span>
+              <span>Sedang menjawab...</span>
             </div>
           </div>
         )}
@@ -288,7 +297,7 @@ export function ChatBox({ laptopSpecs, onBackToLanding, onChangeSpecs }: ChatBox
         isOpen={showRecommendations}
         onClose={() => setShowRecommendations(false)}
         onSelectToAsk={(promptText) => {
-          setInput(promptText);
+          handleSend(promptText);
         }}
       />
     </div>

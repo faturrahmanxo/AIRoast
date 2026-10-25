@@ -91,6 +91,17 @@ function generateHeuristicChatReply(messages: ChatMessage[], laptopSpecs?: strin
     return "Laptop standar yang berada di kelas pekerja keras. Nggak kencang-kencang amat buat disombongin ke tongkrongan, tapi cukup setia buat ngerjain tugas harian selama lu nggak menyiksanya di luar batas.";
   }
 
+  // Cek rekomendasi laptop
+  if (lower.includes('rekomendasi') || lower.includes('beli laptop') || lower.includes('pilihan laptop')) {
+    if (lower.includes('gaming') || lower.includes('12') || lower.includes('13') || lower.includes('10')) {
+      return "Buat kebutuhan kencang dan gaming di kelas 10-13 jutaan, pilihan paling solid ada Lenovo LOQ 15IAX9 (i5-12450HX, RAM 12GB DDR5, RTX 3050 6GB, layar 100% sRGB) di harga Rp 12.899.000 atau Asus TUF Gaming A15 (Ryzen 5 7535HS, 16GB DDR5, RTX 3050 4GB) di harga Rp 11.499.000. Spek ini udah tahan banting dan ga bakal bikin lu nangis pas buka game berat.";
+    }
+    if (lower.includes('5') || lower.includes('6') || lower.includes('7') || lower.includes('coding') || lower.includes('kuliah')) {
+      return "Di budget 6-7 jutaan buat koding dan kuliah, lirik Advan Workplus AMD (Ryzen 5 6600H, RAM 16GB LPDDR5, SSD 512GB PCIe 4.0, layar 100% sRGB) seharga Rp 6.999.000 atau Lenovo IdeaPad Slim 3 (i3-1215U, 8GB) seharga Rp 5.499.000. Multitasking aman tanpa takut laptop lu meledak.";
+    }
+    return "Pilihan paling oke saat ini:\n1. Advan Workplus AMD (Ryzen 5 6600H / 16GB RAM / 512GB SSD) ~ Rp 6.999.000 buat koding & kuliah.\n2. Lenovo LOQ 15 (i5-12450HX / RTX 3050 6GB / 144Hz 100% sRGB) ~ Rp 12.899.000 buat gaming & render berat.";
+  }
+
   // Default roast conversation
   return "Gue udah liat kondisi spek laptop lu. Pertanyaan berikutnya apa nih? Mau nanya kuat main game apa, mau nanya solusi biar nggak lemot, atau mau curhat kenapa kipasnya bunyi kayak traktor sawah?";
 }
@@ -122,8 +133,8 @@ export async function sendChatMessage(messages: ChatMessage[], laptopSpecs?: str
       contents: contents,
       config: {
         systemInstruction: systemPrompt,
-        temperature: 0.85,
-        maxOutputTokens: 250,
+        temperature: 0.9,
+        maxOutputTokens: 350,
       },
     });
 
