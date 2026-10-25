@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+
+  --color-canvas: #101217;
+  --color-surface: #191D25;
+  --color-surface-raised: #222835;
+  --color-border: #353C4A;
+
+  --color-text: #F4F6FA;
+  --color-text-muted: #B3BBC9;
+  --color-text-subtle: #8D97A8;
+
+  --color-primary: #C7F36B;
+  --color-primary-pressed: #B2DF58;
+  --color-accent: #FF8066;
+
+  --color-success: #7FE0B0;
+  --color-warning: #FFD166;
+  --color-danger: #FF7A86;
+  --color-focus: #E5FF9A;
+}
+
+html {
+  scrollbar-gutter: stable;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-text);
+  font-family: var(--font-inter, system-ui, -apple-system, sans-serif);
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Hide Next.js dev indicator bubble completely */
+nextjs-portal,
+[data-nextjs-toast],
+[data-nextjs-dev-tools-button],
+div[data-nextjs-dev-tools-button],
+button[data-nextjs-dev-tools-button] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+/* Micro animations & utility classes */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+@keyframes pingPongProgress {
+  0% {
+    left: -30%;
+    width: 30%;
+  }
+  50% {
+    left: 40%;
+    width: 50%;
+  }
+  100% {
+    left: 100%;
+    width: 30%;
+  }
+}
+
+.animate-progress-bar {
+  animation: pingPongProgress 1.6s infinite ease-in-out;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Scrollbar polish */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #101217;
+}
+::-webkit-scrollbar-thumb {
+  background: #2b323f;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3d4657;
+}
